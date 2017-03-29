@@ -1,0 +1,21 @@
+CC = gcc
+CFLAGS=-g -Wall -Wextra -pedantic
+
+EXECS = FileSystem
+
+all: $(EXECS)
+
+clean: rm -f $(EXECS) *.o
+
+memory_manager.h : memory_manager.c file_system.c
+
+memory_manager.o: memory_manager.c utility.h
+
+utility.o: utility.c utility.h
+
+ledManipulationTest.o: ledManipulationTest.c ledManipulation.h utility.h
+
+file_system.o : file_system.c memory_manager.h file_system.h ledManipulation.h utility.h
+
+$(EXECS): file_system.o memory_manager.o ledManipulationTest.o utility.o
+	  $(CC) $(CFLAGS) -o $@ $^
